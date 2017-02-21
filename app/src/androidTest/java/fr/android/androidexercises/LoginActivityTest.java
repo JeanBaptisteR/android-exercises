@@ -1,5 +1,10 @@
 package fr.android.androidexercises;
 
+import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.test.ActivityInstrumentationTestCase2;
 
 public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
@@ -11,7 +16,7 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        //injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         getActivity();
     }
 
@@ -19,7 +24,14 @@ public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginAct
         //Spoon.screenshot(getCurrentActivity(), name);
     }
 
-//    public Activity getCurrentActivity() {
+    public void testLogin() throws Exception {
+        Espresso.onView(ViewMatchers.withId(R.id.usernameEdit)).perform(ViewActions.typeText("login"));
+        Espresso.onView(ViewMatchers.withId(R.id.passwordEdit)).perform(ViewActions.typeText("password"), ViewActions.closeSoftKeyboard());
+        Espresso.onView(ViewMatchers.withId(R.id.loginButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.loggedText)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    //    public Activity getCurrentActivity() {
 //        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
 //        instrumentation.waitForIdleSync();
 //        final Activity[] activity = new Activity[1];
